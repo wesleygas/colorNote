@@ -33,9 +33,9 @@
       margin-top: 0;
     }
 
-    .card-image img{
-        object-fit: cover;
-        max-height: 18vh;
+    .card-image img {
+      object-fit: cover;
+      max-height: 18vh;
     }
   </style>
 
@@ -50,21 +50,24 @@
             <img src="https://materializecss.com/images/sample-1.jpg">
             <span class="card-title">Bem-vindo ao ColorNote!</span>
           </div>
-          <div class="card-content">
-            <div class="form-field">
-              <label class="titulo" for="username">Username</label>
-              <input type="text" id="username">
+          <form>
+            <div class="card-content">
+              <div class="form-field">
+                <label class="titulo" for="username" >Username</label>
+                <input type="text" id="username" name="username">
+              </div>
+              <br>
+              <div class="form-field">
+                <label class="titulo" for="password" >Password</label>
+                <input type="password" id="password" name="username">
+              </div>
             </div>
             <br>
-            <div class="form-field">
-              <label class="titulo" for="password">Password</label>
-              <input type="password" id="password">
+            <div class="right-align">
+              <a href="./signUp.html">Sign Up</a>
+              <button class="login-button waves-effect waves-light btn center-align" action="/login" type="submit">Login</button>
             </div>
-          </div>
-          <br>
-          <div class="right-align">
-            <button class="login-button waves-effect waves-light btn center-align">button</button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
