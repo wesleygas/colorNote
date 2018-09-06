@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 @WebServlet("/AddUser")
+@SuppressWarnings("serial")
 public class AddUser extends HttpServlet{
 	
 	@Override
@@ -18,10 +19,18 @@ public class AddUser extends HttpServlet{
 			throws ServletException, IOException {
 		DAO dao = new DAO();
 		
+		User user = new User();
+		user.setUsername(request.getParameter("username"));
+		user.setUsername(request.getParameter("password"));
+		
 		PrintWriter out = response.getWriter();
 		out.println("<html><body>");
-		out.println("adicionado" + "esse carinha aqui");
+		out.println("adicionado" + user.getUsername());
+		out.println("<br><p>Com a senha:" + user.getSenha() + "</p>");
+		out.println(getServletName());
 		out.println("</body></html>");
 		dao.close();
+		
+		response.sendRedirect("./Login");
 	}
 }
