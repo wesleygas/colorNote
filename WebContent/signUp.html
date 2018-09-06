@@ -53,7 +53,7 @@ body {
 						<img src="https://materializecss.com/images/sample-1.jpg"> <span
 							class="card-title">Bem-vindo ao ColorNote!</span>
 					</div>
-					<form action="AddUser" method="post">
+					<form action="AddUser" method="post" enctype="application/x-www-form-urlencoded">
 						<div class="card-content">
 							<div class="form-field">
 								<label class="titulo" for="username">Username</label>
@@ -69,17 +69,17 @@ body {
 								<div class="file-field input-field">
 									<div class="btn">
 										<span>Pesquisar</span> 
-										<input type="file"/>
+										<input type="file" name="foto"/>
 									</div>
 									<div class="file-path-wrapper">
-										<input class="file-path validate" type="text" name="foto" placeholder="selecione uma foto" />
+										<input class="file-path validate" type="text" placeholder="selecione uma foto" />
 									</div>
 								</div>
 							</div>
 						</div>
 						<br>
 						<div class="right-align">
-							<a href="./login.html">Voltar para o login</a>
+							<a href="./Login">Voltar para o login</a>
 							<button
 								class="login-button waves-effect waves-light btn center-align"
 								 type="submit">Cadastrar</button>

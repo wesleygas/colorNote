@@ -16,13 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Login() {
-    	
-    	
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
