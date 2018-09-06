@@ -15,26 +15,23 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	DAO dao = new DAO();
+   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		RequestDispatcher view = request.getRequestDispatcher("login.html");
 		view.forward(request, response);
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		User user = dao.getUserbyName(request.getParameter("username"));
+		if (user.getSenha() == request.getParameter("senha")){
+			response.sendRedirect("./Home");
+		}
 		
+	
 		
-		doGet(request, response);
 	}
-
 }
