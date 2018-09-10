@@ -39,6 +39,7 @@ public class AddUser extends HttpServlet{
 			System.out.println("USUARIO ADICIONADO COM SUCESSO");
 		}else if(result == 2){
 			System.out.println("USUARIO JA CADASTRADO");
+			//TODO: RETURN ERROR TO LOGIN PAGE
 		}
 		else {
 			System.out.println("#SOMETHING IS WROOOONG (ADDING USER RETURNED WITH AN ERROR");

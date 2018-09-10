@@ -38,8 +38,9 @@
 		</div>
 		<div class="nav-content">
 			<a
-				class="btn-floating btn-large halfway-fab waves-effect waves-light teal "
-				data-toggle="modal" data-target="#addNote"> <i class="material-icons">add</i>
+				class="btn-floating btn-large halfway-fab waves-effect waves-light teal modal-trigger"
+				href="#addNote"> <i class="material-icons">add</i>
+
 			</a>
 		</div>
 	</nav>
@@ -68,37 +69,40 @@
 				}
 			%>
 		</div>
-
 	</div>
 
-	<div class="modal fade" id="addNote">
-		<div class="row">
-			<div class="col s12 m6">
-				<div class="card blue-grey darken-1">
-					<div class="card-content white-text">
-						<span class="card-title">Card Title</span>
-						<p>I am a very simple card. I am good at containing small bits
-							of information. I am convenient because I require little markup
-							to use effectively.</p>
-					</div>
-					<div class="card-action">
-						<a href="#">This is a link</a> <a href="#">This is a link</a>
-					</div>
+	<!-- Modal Structure -->
+	<div id="addNote" class="modal">
+		<form action="addNote" method="post">
+			<div class="modal-content">
+				<div class="input-field">
+					<input type="text" id="titulo" name="titulo">
+					<label for="titulo">Textarea</label>
+				</div>
+				<br>
+				<div class="input-field">
+					<textarea id="body" class="materialize-textarea"></textarea>
+					<label for="body">Textarea</label>
 				</div>
 			</div>
-		</div>
+			<div class="modal-footer">
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+			</div>
+		</form>
 	</div>
 
 
 	<script type="text/javascript"
-		src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+		src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$(".dropdown-trigger").dropdown();
 			$('.sidenav').sidenav();
-		})
+			$('.modal').modal();
+		});
 	</script>
 </body>
 </html>

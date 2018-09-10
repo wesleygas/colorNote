@@ -41,6 +41,7 @@ public class Home extends HttpServlet {
 				if (last_session + session_timeout > System.currentTimeMillis()) {
 					List<Note> notas = dao.getNotesFromUser(user);
 					request.setAttribute("notas", notas);
+					request.setAttribute("user", user);
 					RequestDispatcher view = request.getRequestDispatcher("home.jsp");
 					view.forward(request, response);
 
@@ -57,6 +58,10 @@ public class Home extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		DAO dao = new DAO();
+		request.getAttribute("user");
+		
+		
 
 		doGet(request, response);
 	}
