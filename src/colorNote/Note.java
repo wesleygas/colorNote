@@ -2,7 +2,7 @@ package colorNote;
 
 import java.sql.Timestamp;
 
-public class Notes {
+public class Note {
 	private Integer note_id;
 	private String title;
 	private String body;

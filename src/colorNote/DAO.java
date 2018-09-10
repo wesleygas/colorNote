@@ -14,7 +14,7 @@ public class DAO {
 	public DAO() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://localhost/color_note", "root", "root");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost/color_note?", "root", "root");
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			System.out.println(" ====== DAO: ERRO AO CONECTAR COM O MYSQL ==============");
@@ -31,15 +31,15 @@ public class DAO {
 	}
 	
 
-	public List<Notes> getNotesFromUser(Integer user_id) {
-		List<Notes> notas = new ArrayList<Notes>();
+	public List<Note> getNotesFromUser(User user) {
+		List<Note> notas = new ArrayList<Note>();
 		PreparedStatement stmt;
 		try {
 			stmt = connection.prepareStatement("SELECT * FROM tb_note WHERE user_id =?");
-			stmt.setInt(1, user_id);
+			stmt.setInt(1, user.getUser_id());
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				Notes note = new Notes();
+				Note note = new Note();
 				note.setNote_id(rs.getInt("note_id"));
 				note.setTitle(rs.getString("title"));
 				note.setBody(rs.getString("body"));
@@ -51,20 +51,20 @@ public class DAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("DAO: ERRO AO PEGAR NOTAS DO USUARIO" + user_id.toString() +  "DO BANCO DE DADOS");
+			System.out.println("DAO: ERRO AO PEGAR NOTAS DO USUARIO" + user.getUser_id().toString() +  "DO BANCO DE DADOS");
 		}
 		return notas;
 	}
 	
 	
-	public List<Notes> getAllNotes(Integer userId) {
-		List<Notes> notas = new ArrayList<Notes>();
+	public List<Note> getAllNotes() {
+		List<Note> notas = new ArrayList<Note>();
 		PreparedStatement stmt;
 		try {
 			stmt = connection.prepareStatement("SELECT * FROM tb_note");
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				Notes note = new Notes();
+				Note note = new Note();
 				note.setNote_id(rs.getInt("note_id"));
 				note.setTitle(rs.getString("title"));
 				note.setBody(rs.getString("body"));
@@ -81,57 +81,142 @@ public class DAO {
 		return notas;
 	}
 	
-	public User getUser(Integer userId) {
+	public User getUserById(Integer userId) {
 		User user = new User();
+		int n_users = 0;
 		PreparedStatement stmt;
 		try {
-			stmt = connection.prepareStatement("SELECT * FROM tb_user WHERE user_id=?");
+			stmt = connection.prepareStatement("SELECT * FROM tb_user WHERE user_id=? and is_active=1");
 			stmt.setInt(1, userId);
 			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+			n_users += 1;
 			user.setUser_id(rs.getInt("user_id"));
 			user.setUsername(rs.getString("username"));
 			user.setSenha(rs.getString("senha"));
 			user.setFoto(rs.getBytes("foto"));
 			user.setLast_session(rs.getTimestamp("last_session"));
 			user.setIs_active(rs.getBoolean("is_active"));
+			}
 		}catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("DAO: ERRO AO PEGAR USER DO BANCO DE DADOS");
 		}
-		
+		if(n_users > 1) {
+			System.out.println("MAIS QUE UM USUARIO COM O MESMO ID!");
+			return user;
+		}
 		return user;
 	}
 	
-	public void addUser(User user) {
-		String sql = "INSERT INTO tb_user (username,senha,foto,last_session,is_active) values(?,?,?,?,?)";
+	public int addUser(User user) {
+		PreparedStatement stmt;
 		try {
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt = connection.prepareStatement("SELECT * FROM tb_user WHERE username=?");
 			stmt.setString(1, user.getUsername());
-			stmt.setString(2, user.getSenha());
-			stmt.setBytes(3, user.getFoto());
-			stmt.setTimestamp(4, user.getLast_session());
-			stmt.setBoolean(5, user.isIs_active());
-			stmt.execute();
-			stmt.close();
-		} catch (SQLException e) {
+			ResultSet rs = stmt.executeQuery();
+			if(!rs.isBeforeFirst()) {
+				String sql = "INSERT INTO tb_user (username,senha,foto,last_session,is_active) values(?,?,?,?,?)";
+				stmt = connection.prepareStatement(sql);
+				stmt.setString(1, user.getUsername());
+				stmt.setString(2, user.getSenha());
+				stmt.setBytes(3, user.getFoto());
+				stmt.setTimestamp(4, user.getLast_session());
+				stmt.setBoolean(5, user.isIs_active());
+				stmt.execute();
+				stmt.close();
+				
+				return 1;	
+			}
+			else {
+				return 2;
+			}
+		}catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("DAO: ERRO AO ADICIONAR USER NA TABELA");
+			System.out.println("DAO: ERRO AO ADICIONAR USER NO BANCO DE DADOS VIA USERNAME");
 		}
+		
+		return 0;
+	}
+	
+	public User getUserByName(String username) {
+		User user = new User();
+		int n_users = 0;
+		PreparedStatement stmt;
+		try {
+			stmt = connection.prepareStatement("SELECT * FROM tb_user WHERE username=? and is_active=1");
+			stmt.setString(1,username);
+			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				n_users += 1;
+				user.setUser_id(rs.getInt("user_id"));
+				user.setUsername(rs.getString("username"));
+				user.setSenha(rs.getString("senha"));
+				user.setFoto(rs.getBytes("foto"));
+				user.setLast_session(rs.getTimestamp("last_session"));
+				user.setIs_active(rs.getBoolean("is_active"));
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("DAO: ERRO AO PEGAR USER DO BANCO DE DADOS");
+		}
+		if(n_users > 1) {
+			System.out.println("MAIS QUE UM USUARIO COM O MESMO username!");
+			return user;
+		}
+		return user;
+		
 	}
 	
 	
-	public void editUserPassword(String password, Integer user_id) {
-		String sql = "UPDATE tb_user SET password=? WHERE id=?";
+	public void editUserPassword(String password, User user) {
+		String sql = "UPDATE tb_user SET password=? WHERE user_id=?";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setString(1, password);
-			stmt.setInt(2, user_id);
+			stmt.setInt(2, user.getUser_id());
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("DAO: ERRO AO ADICIONAR USER NA TABELA");
+			System.out.println("DAO: ERRO AO EDITAR USER PASSWORD");
 		}
+	}
+	
+	public void editUserLastSession(User user) {
+		String sql = "UPDATE tb_user SET last_session=? WHERE user_id=?";
+		long time = System.currentTimeMillis();
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(time);
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setTimestamp(1, timestamp);
+			stmt.setInt(2, user.getUser_id());
+			stmt.execute();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("DAO: ERRO AO MODIFICAR LAST_SESSION TIMESTAMP");
+		}
+	}
+	
+	public void deactivateUser(User user) {
+		String sql = "UPDATE tb_user SET is_active=? WHERE user_id=?";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setBoolean(1, false);
+			stmt.setInt(2, user.getUser_id());
+			stmt.execute();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("DAO: ERRO AO DESATIVAR USUARIO");
+		}
+	}
+	
+	public void editNote(Note note) {
+		
 	}
 	
 	
