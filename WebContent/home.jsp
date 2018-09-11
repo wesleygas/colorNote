@@ -32,7 +32,7 @@
 				<li><a href="#!" class="dropdown-trigger"
 					data-target="dropdown1"><i class="material-icons">more_vert</i></a></li>
 				<li><a href="#!"><i class="material-icons">view_module</i></a></li>
-				<li><a href="#!"><i class="material-icons">refresh</i></a></li>
+				<li><a onclick="myReload()"><i class="material-icons">refresh</i></a></li>
 
 			</ul>
 		</div>
@@ -49,9 +49,11 @@
 		<div class="row">
 			<%
 				List<Note> notas = (List<Note>) request.getAttribute("notas");
+				User user = (User) request.getAttribute("user");
 			%>
 			<%
-				for (Note nota : notas) {
+				if (notas != null) {
+					for (Note nota : notas) {
 			%>
 			<div class="col s12 m6">
 				<div class="card blue-grey darken-1">
@@ -67,26 +69,34 @@
 			</div>
 			<%
 				}
+				} else {
+			%>
+				<div class="valign-wrapper center-align">
+					<h5>Nenhuma nota foi encontrada :/ </h5>
+				</div>
+			<%
+				}
 			%>
 		</div>
 	</div>
 
 	<!-- Modal Structure -->
 	<div id="addNote" class="modal">
-		<form action="addNote" method="post">
+		<form action="Home" method="post">
 			<div class="modal-content">
 				<div class="input-field">
-					<input type="text" id="titulo" name="titulo">
-					<label for="titulo">Textarea</label>
+					<input type="text" id="title" name="title"> <label
+						for="title">Titulo</label>
 				</div>
 				<br>
 				<div class="input-field">
-					<textarea id="body" class="materialize-textarea"></textarea>
-					<label for="body">Textarea</label>
+					<textarea id="body" name="body" class="materialize-textarea"></textarea>
+					<label for="body">Corpo</label>
+					<input type="hidden" name="user_id" value="<%=user.getUser_id()%>">
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+				<a href="#!" type="submit" class="modal-close waves-effect waves-green btn-flat">Agree</a>
 			</div>
 		</form>
 	</div>
@@ -102,6 +112,9 @@
 			$(".dropdown-trigger").dropdown();
 			$('.sidenav').sidenav();
 			$('.modal').modal();
+			function myReload() {
+			    location.reload(true);
+			}
 		});
 	</script>
 </body>
