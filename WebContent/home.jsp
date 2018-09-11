@@ -32,7 +32,7 @@
 				<li><a href="#!" class="dropdown-trigger"
 					data-target="dropdown1"><i class="material-icons">more_vert</i></a></li>
 				<li><a href="#!"><i class="material-icons">view_module</i></a></li>
-				<li><a onclick="myReload()"><i class="material-icons">refresh</i></a></li>
+				<li><a href="#!" id="atualiza"><i class="material-icons">refresh</i></a></li>
 
 			</ul>
 		</div>
@@ -56,7 +56,7 @@
 					for (Note nota : notas) {
 			%>
 			<div class="col s12 m6">
-				<div class="card blue-grey darken-1">
+				<div class="card blue-grey darken-1" onclick="selectNote(<%=nota.getNote_id()%>)">
 					<div class="card-content white-text">
 						<span class="card-title"><%=nota.getTitle()%></span>
 						<p><%=nota.getBody()%></p>
@@ -112,10 +112,18 @@
 			$(".dropdown-trigger").dropdown();
 			$('.sidenav').sidenav();
 			$('.modal').modal();
-			function myReload() {
-			    location.reload(true);
-			}
+			$('.atualiza').click(function() {
+				location.assign("Home?username=<%=user.getUsername()%>");
+			});
 		});
+		function selectNote(noteId) {
+			$.ajax({
+		    url: 'Home', // your api url
+		    method: 'PUT', // method is any HTTP method
+		    data: {"note_id": noteId}, // data as js object
+		    success: function() {}
+		});
+		}
 	</script>
 </body>
 </html>

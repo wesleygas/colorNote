@@ -30,21 +30,26 @@ public class Home extends HttpServlet {
 		if (user != null) {
 			List<Note> notas = dao.getNotesFromUser(user);
 			request.setAttribute("notas", notas);
+			System.out.println("Tenho o obj User");
 			RequestDispatcher view = request.getRequestDispatcher("home.jsp");
 			view.forward(request, response);
 		} else {
 			String username = request.getParameter("username");
+			System.out.print("PEGUEI O USER PELO NOME: ");
+			System.out.println(username);
+			System.out.println(username != null);
 			if (username != null) {
+				
 				user = dao.getUserByName(request.getParameter("username"));
 				Timestamp timestamp = user.getLast_session();
 				long last_session = timestamp.getTime();
 				if (last_session + session_timeout > System.currentTimeMillis()) {
+					
 					List<Note> notas = dao.getNotesFromUser(user);
 					request.setAttribute("notas", notas);
 					request.setAttribute("user", user);
 					RequestDispatcher view = request.getRequestDispatcher("home.jsp");
 					view.forward(request, response);
-
 				} else {
 					System.out.println("TIMEOUT -------------------------------------");
 					request.setAttribute("error", "Sua sessao expirou, logue novamente.");
