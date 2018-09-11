@@ -58,12 +58,43 @@ public class Home extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		DAO dao = new DAO();
-		request.getAttribute("user");
-		
-		
-
+		String user_id = request.getParameter("user_id");
+		if(user_id != null) {
+			DAO dao = new DAO();
+		Note note = new Note();
+		System.out.println("Entrei Pra add notas");
+		note.setUser_id(Integer.parseInt(user_id));
+		note.setTitle(request.getParameter("title"));
+		note.setBody(request.getParameter("body"));
+		System.out.println(note.getTitle());
+		System.out.println(note.getBody());
+		note.setTema_id(1);
+		dao.addNoteToUser(note);
 		doGet(request, response);
+		}
+		else {
+			doGet(request, response);
+		}
+		
 	}
-
+	
+	
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String note_id = request.getParameter("note_id");
+		String user_id = request.getParameter("user_id");
+		DAO dao = new DAO();
+		Note note = new Note();
+		note.setNote_id(Integer.parseInt(note_id));
+		note.setUser_id(Integer.parseInt(user_id));
+		dao.deleteNote(note);
+		
+	}
+		
+		
+	
+		
+		
 }
+
+

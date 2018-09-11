@@ -82,7 +82,7 @@ public class DAO {
 
 	public Integer addNoteToUser(Note note) { 
 		Integer error_code = 0;
-		String sql = "INSERT INTO tb_note (title,body,foto,last_edit,user_id,tema_id) values(?,?,?,?,?,?)";
+		String sql = "INSERT INTO tb_note (title,body,image,last_edit,user_id,tema_id) values(?,?,?,?,?,?)";
 
 		try {
 
@@ -98,7 +98,7 @@ public class DAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(" ====== DAO: ERRO AO ADICIONAR NOTA NO USUARIO ==============");
+			System.out.println(" ====== DAO: ERRO AO ADICIONAR NOTA NO USUARIO DE ID: " + note.getUser_id() + "==============");
 			error_code = 1;
 		}
 		return error_code;
@@ -238,6 +238,21 @@ public class DAO {
 
 	public void editNote(Note note) {
 
+	}
+	
+	public void deleteNote(Note note) {
+		String sql = "DELETE FROM tb_note WHERE user_id=? AND note_id=?";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, note.getUser_id());
+			stmt.setInt(2, note.getNote_id());
+			stmt.execute();
+			stmt.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("DAO: ERRO AO DELETAR NOTAS DO USUARIO");
+		}
+		
 	}
 
 }
