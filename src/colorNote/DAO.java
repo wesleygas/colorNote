@@ -237,7 +237,21 @@ public class DAO {
 	}
 
 	public void editNote(Note note) {
-
+		String sql = "UPDATE tb_note SET body=?, title=?, last_edit=? WHERE note_id=?";
+		long time = System.currentTimeMillis();
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(time);
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, note.getBody());
+			stmt.setString(2, note.getTitle());
+			stmt.setTimestamp(3, timestamp);
+			stmt.setInt(4, note.getNote_id());
+			stmt.execute();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("DAO: ERRO AO ATUALIZAR NOTA");
+		}
 	}
 	
 	public void deleteNote(Note note) {

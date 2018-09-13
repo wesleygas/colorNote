@@ -62,8 +62,10 @@
 						<p id="bd<%=nota.getNote_id()%>"><%=nota.getBody()%></p>
 					</div>
 					<div class="card-action">
-						<button onclick="deleteNote(<%=nota.getNote_id()%>)" class="waves-effect waves-light btn-small" ><i class="material-icons right" >delete</i> Delete</button>
-						<a href="#">Minha altura: <%=nota.getNote_id()%></a>
+						<form action="Home?action=delete&user_id=<%=user.getUser_id()%>&note_id=<%=nota.getNote_id()%>" method="post">
+							<button type="submit" class="waves-effect waves-light btn-small" ><i class="material-icons right" >delete</i> Delete</button>
+						</form>
+						<a class="btn-flat disabled">Last Edit:  <%=nota.getLast_edit()%></a>
 					</div>
 				</div>
 			</div>
@@ -96,7 +98,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#!" class="modal-action modal-close waves-effect waves-red btn red lighten-1">Done</a>
+				<button type="submit" class="modal-close waves-effect waves-red btn red lighten-1">Done</button>
     		</div>
 		</form>
 	</div>
@@ -113,6 +115,7 @@
 					<textarea id="mbody" name="mbody" class="materialize-textarea"></textarea>
 					<label for="body">Corpo</label>
 					<input type="hidden" name="action" value="edit">
+					<input type="hidden" id="mnote_id" name="note_id" value="">
 					<input type="hidden" name="user_id" value="<%=user.getUser_id()%>">
 				</div>
 			</div>
@@ -148,15 +151,8 @@
 			body = $('#bd' + noteId).text();
 			console.log("Titulo:",title,"Corpo:",body);
 			$('#mtitle').val(title);
+			$('#mnote_id').val(noteId);
 			$('#mbody').text(body);
-		}
-		function deleteNote(noteId) {
-			$.ajax({
-		    url: 'Home?user_id=<%=user.getUser_id()%>&note_id='+ noteId, // your api url
-		    method: 'DELETE', // method is any HTTP method
-		    data: {"note_id": noteId}, // data as js object
-		    success: function() {}
-		});
 		}
 	</script>
 </body>
