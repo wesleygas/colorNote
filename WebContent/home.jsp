@@ -62,8 +62,8 @@
 						<p><%=nota.getBody()%></p>
 					</div>
 					<div class="card-action">
-						<a href="#"><%=nota.getLast_edit()%></a> <a href="#">Minha
-							altura: <%=nota.getNote_id()%></a>
+						<button onclick="deleteNote(<%=nota.getNote_id()%>)" class="waves-effect waves-light btn-small" ><i class="material-icons right" >delete</i> Delete</button>
+						<a href="#">Minha altura: <%=nota.getNote_id()%></a>
 					</div>
 				</div>
 			</div>
@@ -120,6 +120,14 @@
 			$.ajax({
 		    url: 'Home', // your api url
 		    method: 'PUT', // method is any HTTP method
+		    data: {"note_id": noteId}, // data as js object
+		    success: function() {}
+		});
+		}
+		function deleteNote(noteId) {
+			$.ajax({
+		    url: 'Home?user_id=<%=user.getUser_id()%>&note_id='+ noteId, // your api url
+		    method: 'DELETE', // method is any HTTP method
 		    data: {"note_id": noteId}, // data as js object
 		    success: function() {}
 		});

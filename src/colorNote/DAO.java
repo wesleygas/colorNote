@@ -241,11 +241,10 @@ public class DAO {
 	}
 	
 	public void deleteNote(Note note) {
-		String sql = "DELETE FROM tb_note WHERE user_id=? AND note_id=?";
+		String sql = "DELETE FROM tb_note WHERE note_id=?";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setInt(1, note.getUser_id());
-			stmt.setInt(2, note.getNote_id());
+			stmt.setInt(1, note.getNote_id());
 			stmt.execute();
 			stmt.close();
 		}catch (SQLException e) {
