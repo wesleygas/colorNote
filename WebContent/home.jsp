@@ -62,8 +62,8 @@
 						<p id="bd<%=nota.getNote_id()%>"><%=nota.getBody()%></p>
 					</div>
 					<div class="card-action">
-						<a href="#"><%=nota.getLast_edit()%></a> <a href="#">Minha
-							altura: <%=nota.getNote_id()%></a>
+						<button onclick="deleteNote(<%=nota.getNote_id()%>)" class="waves-effect waves-light btn-small" ><i class="material-icons right" >delete</i> Delete</button>
+						<a href="#">Minha altura: <%=nota.getNote_id()%></a>
 					</div>
 				</div>
 			</div>
@@ -96,8 +96,8 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button href="#!" type="submit" class="modal-close waves-effect waves-green btn-flat">fechar</button>
-			</div>
+				<a href="#!" class="modal-action modal-close waves-effect waves-red btn red lighten-1">Done</a>
+    		</div>
 		</form>
 	</div>
 	
@@ -149,6 +149,14 @@
 			console.log("Titulo:",title,"Corpo:",body);
 			$('#mtitle').val(title);
 			$('#mbody').text(body);
+		}
+		function deleteNote(noteId) {
+			$.ajax({
+		    url: 'Home?user_id=<%=user.getUser_id()%>&note_id='+ noteId, // your api url
+		    method: 'DELETE', // method is any HTTP method
+		    data: {"note_id": noteId}, // data as js object
+		    success: function() {}
+		});
 		}
 	</script>
 </body>

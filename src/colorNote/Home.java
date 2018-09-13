@@ -118,6 +118,11 @@ public class Home extends HttpServlet {
 		note.setNote_id(Integer.parseInt(note_id));
 		note.setUser_id(Integer.parseInt(user_id));
 		dao.deleteNote(note);
+		request.setAttribute("user", dao.getUserById(Integer.parseInt(user_id)));
+		RequestDispatcher view = request.getRequestDispatcher("home.jsp");
+		System.out.println("AAAAA" + user_id);
+		view.forward(request, response);
+		
 		
 	}
 
