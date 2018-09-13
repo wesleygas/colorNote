@@ -62,8 +62,8 @@
 						<p><%=nota.getBody()%></p>
 					</div>
 					<div class="card-action">
-						<button onclick="deleteNote(<%=nota.getNote_id()%>)" class="waves-effect waves-light btn-small" ><i class="material-icons right" >delete</i> Delete</button>
-						<a href="#">Minha altura: <%=nota.getNote_id()%></a>
+						<button onclick="deleteNote(<%=nota.getNote_id()%>)" class="waves-effect waves-light btn" ><i class="material-icons right" >delete</i> Delete</button>
+						<a class="btn-flat disabled">Last Edit:<%=nota.getLast_edit()%></a>
 					</div>
 				</div>
 			</div>
