@@ -57,8 +57,5 @@ public class Login extends HttpServlet {
 			}
 			out.println("</body></html>");
 		}
-
-		
-		
 	}
 }

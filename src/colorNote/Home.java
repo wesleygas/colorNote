@@ -1,8 +1,11 @@
 package colorNote;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * Servlet implementation class Home
@@ -64,18 +68,39 @@ public class Home extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String user_id = request.getParameter("user_id");
-		if(user_id != null) {
-			DAO dao = new DAO();
-		Note note = new Note();
-		System.out.println("Entrei Pra add notas");
-		note.setUser_id(Integer.parseInt(user_id));
-		note.setTitle(request.getParameter("title"));
-		note.setBody(request.getParameter("body"));
-		System.out.println(note.getTitle());
-		System.out.println(note.getBody());
-		note.setTema_id(1);
-		dao.addNoteToUser(note);
-		doGet(request, response);
+		String action = request.getParameter("action");
+		DAO dao = new DAO();
+		System.out.println(action);
+		if(action != null) {
+			Note nota = new Note();
+			nota.setTitle(request.getParameter("mtitle"));
+			nota.setBody(request.getParameter("mbody"));
+			if(nota.getTitle().length() > 0 && nota.getBody().length() > 0) {
+				dao.editNote(nota);
+				request.setAttribute("user", dao.getUserById(Integer.parseInt(user_id)));
+				doGet(request, response);
+			}else {
+				System.out.print("Notas Vazias");
+			}
+		}
+		else if(user_id != null) {
+			Note note = new Note();
+			System.out.println("Entrei Pra add notas");
+			note.setUser_id(Integer.parseInt(user_id));
+			note.setTitle(request.getParameter("title"));
+			note.setBody(request.getParameter("body"));
+			System.out.println(note.getTitle());
+			System.out.println(note.getBody());
+			note.setTema_id(1);
+			if(note.getTitle().length() > 0 && note.getBody().length() > 0) {
+				dao.addNoteToUser(note);
+			}else {
+				System.out.print("Notas Vazias");
+			}
+			
+			request.setAttribute("user", dao.getUserById(Integer.parseInt(user_id)));
+			
+			doGet(request, response);
 		}
 		else {
 			doGet(request, response);
@@ -100,9 +125,8 @@ public class Home extends HttpServlet {
 		
 		
 	}
+
 		
-		
-	
 		
 		
 }

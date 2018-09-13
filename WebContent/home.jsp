@@ -56,10 +56,10 @@
 					for (Note nota : notas) {
 			%>
 			<div class="col s12 m6">
-				<div class="card blue-grey darken-1" onclick="selectNote(<%=nota.getNote_id()%>)">
+				<div class="card blue-grey darken-1 hoverable" onclick="selectNote(<%=nota.getNote_id()%>)">
 					<div class="card-content white-text">
-						<span class="card-title"><%=nota.getTitle()%></span>
-						<p><%=nota.getBody()%></p>
+						<span class="card-title" id="tl<%=nota.getNote_id()%>"><%=nota.getTitle()%></span>
+						<p id="bd<%=nota.getNote_id()%>"><%=nota.getBody()%></p>
 					</div>
 					<div class="card-action">
 						<button onclick="deleteNote(<%=nota.getNote_id()%>)" class="waves-effect waves-light btn" ><i class="material-icons right" >delete</i> Delete</button>
@@ -96,8 +96,29 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-      			<a href="#!" class="modal-action modal-close waves-effect waves-red btn red lighten-1">Done</a>
+				<a href="#!" class="modal-action modal-close waves-effect waves-red btn red lighten-1">Done</a>
     		</div>
+		</form>
+	</div>
+	
+	<div id="editNote" class="modal">
+		<form action="Home" method="post">
+			<div class="modal-content">
+				<div class="input-field">
+					<input type="text" id="mtitle" name="mtitle"> <label
+						for="title">Titulo</label>
+				</div>
+				<br>
+				<div class="input-field">
+					<textarea id="mbody" name="mbody" class="materialize-textarea"></textarea>
+					<label for="body">Corpo</label>
+					<input type="hidden" name="action" value="edit">
+					<input type="hidden" name="user_id" value="<%=user.getUser_id()%>">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="modal-close waves-effect waves-green btn-flat">fechar</button>
+			</div>
 		</form>
 	</div>
 
@@ -111,18 +132,23 @@
 		$(document).ready(function() {
 			$(".dropdown-trigger").dropdown();
 			$('.sidenav').sidenav();
-			$('.modal').modal();
+			$('#addNote').modal();
+			$('#editNote').modal();
 			$('.atualiza').click(function() {
 				location.assign("Home?username=<%=user.getUsername()%>");
 			});
 		});
 		function selectNote(noteId) {
-			$.ajax({
-		    url: 'Home', // your api url
-		    method: 'PUT', // method is any HTTP method
-		    data: {"note_id": noteId}, // data as js object
-		    success: function() {}
-		});
+			
+			var Modalelem = document.querySelector('#editNote');
+            var instance = M.Modal.init(Modalelem);
+            instance.open();
+			console.log("You clicked note: ", noteId);
+			title = $('#tl' + noteId).text();
+			body = $('#bd' + noteId).text();
+			console.log("Titulo:",title,"Corpo:",body);
+			$('#mtitle').val(title);
+			$('#mbody').text(body);
 		}
 		function deleteNote(noteId) {
 			$.ajax({
