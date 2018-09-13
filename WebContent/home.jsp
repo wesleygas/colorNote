@@ -96,8 +96,8 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#!" type="submit" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-			</div>
+      			<a href="#!" class="modal-action modal-close waves-effect waves-red btn red lighten-1">Done</a>
+    		</div>
 		</form>
 	</div>
 
