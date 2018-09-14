@@ -58,6 +58,12 @@ public class Home extends HttpServlet {
 
 				}
 			}
+			else {
+				System.out.println("NINGUEM TA LOGADO, SEU MORGADO");
+				request.setAttribute("error", "LOGA SUA DISGRAMA");
+				RequestDispatcher view = request.getRequestDispatcher("/Login");
+				view.forward(request, response);
+			}
 		}
 	}
 
