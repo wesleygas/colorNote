@@ -62,10 +62,15 @@
 						<p id="bd<%=nota.getNote_id()%>"><%=nota.getBody()%></p>
 					</div>
 					<div class="card-action">
+<<<<<<< HEAD
 						<form action="Home?action=delete&user_id=<%=user.getUser_id()%>&note_id=<%=nota.getNote_id()%>" method="post">
 							<button type="submit" class="waves-effect waves-light btn-small" ><i class="material-icons right" >delete</i> Delete</button>
 						</form>
 						<a class="btn-flat disabled">Last Edit:  <%=nota.getLast_edit()%></a>
+=======
+						<button onclick="deleteNote(<%=nota.getNote_id()%>)" class="waves-effect waves-light btn" ><i class="material-icons right" >delete</i> Delete</button>
+						<a class="btn-flat disabled">Last Edit:<%=nota.getLast_edit()%></a>
+>>>>>>> 68b40b7d6808bce657d72c87df2a11b1b43b68a7
 					</div>
 				</div>
 			</div>
