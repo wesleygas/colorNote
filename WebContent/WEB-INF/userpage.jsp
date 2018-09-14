@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
 <html>
 <head>
 <link rel="shortcut icon"
@@ -14,8 +11,8 @@
 <title>Color Note</title>
 </head>
 <body>
-	<%@ page import="java.util.*,colorNote.*"%>
-	
+
+
 	<!-- Dropdown Structure -->
 	<ul id="dropdown1" class="dropdown-content">
 		<li><a href="#!">one</a></li>
@@ -36,35 +33,29 @@
 
 			</ul>
 		</div>
-		<div class="nav-content">
-			<a
-				class="btn-floating btn-large halfway-fab waves-effect waves-light teal modal-trigger"
-				href="#addNote"> <i class="material-icons">add</i>
-
-			</a>
-		</div>
 	</nav>
-	
-	<div class="container">
+
+	 
 		<div class="section">
 			<div class="row">
-			<%
-				List<Note> notas = (List<Note>) request.getAttribute("notas");
-				User user = (User) request.getAttribute("user");
-			%>
 				<div class= "col 18 s12">
-					<h2>Your Profile</h2>
+					<h2 class="teal-text text-lighten-2">Your Profile<i class="material-icons">person</i></h2>
 						<div class="card-panel alcaramel" style="min-height: 640px;">
-                          <h6>Information</h6>
+                          <h5>Information</h5>
                           <hr>
-                          <span class="detail-title">Username</span>
-                          <span class==$0> "<%=user.getUsername()%>"</span>
-                        </div>
-			
+                          <span class="teal-text text-lighten-2">Username:</span>
+                          <p>Colocar aqui o username ecom jsp</p>
+													<hr>
+                          <span class="teal-text text-lighten-2">Última sessão ativa</span>
+                          <p>Colocar aqui o last session com jsp</p>
+													<hr>
+                          <span class="teal-text text-lighten-2">Quantidade de notas</span>
+                          <p>Colocar aqui a quantidade de notas ecom jsp</p>
+													<hr>
+						</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	
+
 </body>
 </html>
