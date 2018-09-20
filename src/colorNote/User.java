@@ -47,4 +47,14 @@ public class User {
 	}
 	private boolean is_active;
 	
+	public boolean isSessionActive() {
+		long now = System.currentTimeMillis();
+		if(last_session.getTime() + (2 * 60 * 1000) > now) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 }

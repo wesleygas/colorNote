@@ -45,12 +45,8 @@ public class AddUser extends HttpServlet{
 			System.out.println("#SOMETHING IS WROOOONG (ADDING USER RETURNED WITH AN ERROR");
 		}
 		
-		PrintWriter out = response.getWriter();
-		out.println("<html><body>");
-		out.println("adicionado: " + user.getUsername());
-		out.println("<br><p>Com a senha: " + user.getSenha() + "</p>");
-		out.println("<a href=\"./Login\">Voltar para o login</a>");
-		out.println("</body></html>");
+		RequestDispatcher view = request.getRequestDispatcher("login.html");
+		view.forward(request, response);
 		dao.close();
 		
 		//response.sendRedirect("./Login");

@@ -15,13 +15,14 @@
 </head>
 <body>
 	<%@ page import="java.util.*,colorNote.*"%>
-
+	<%
+				List<Note> notas = (List<Note>) request.getAttribute("notas");
+				User user = (User) request.getAttribute("user");
+			%>
 	<!-- Dropdown Structure -->
 	<ul id="dropdown1" class="dropdown-content">
-		<li><a href="#!">one</a></li>
-		<li><a href="#!">two</a></li>
-		<li class="divider"></li>
-		<li><a href="#!">three</a></li>
+		<li><a href="./UserOptions?user_id=<%=user.getUser_id()%>">Minha Conta</a></li>
+		<li><a href="./Login">Sair</a></li>
 	</ul>
 
 	<nav class="nav-extended">
@@ -31,8 +32,6 @@
 			<ul class="left hide-small-only">
 				<li><a href="#!" class="dropdown-trigger"
 					data-target="dropdown1"><i class="material-icons">more_vert</i></a></li>
-				<li><a href="#!"><i class="material-icons">view_module</i></a></li>
-				<li><a href="#!" id="atualiza"><i class="material-icons">refresh</i></a></li>
 
 			</ul>
 		</div>
@@ -48,29 +47,25 @@
 	<div class="container">
 		<div class="row">
 			<%
-				List<Note> notas = (List<Note>) request.getAttribute("notas");
-				User user = (User) request.getAttribute("user");
-			%>
-			<%
 				if (notas != null) {
 					for (Note nota : notas) {
 			%>
 			<div class="col s12 m6">
-				<div class="card blue-grey darken-1 hoverable" onclick="selectNote(<%=nota.getNote_id()%>)">
+				<div class="card blue-grey darken-1 hoverable"
+					onclick="selectNote(<%=nota.getNote_id()%>)">
 					<div class="card-content white-text">
 						<span class="card-title" id="tl<%=nota.getNote_id()%>"><%=nota.getTitle()%></span>
 						<p id="bd<%=nota.getNote_id()%>"><%=nota.getBody()%></p>
 					</div>
 					<div class="card-action">
-<<<<<<< HEAD
-						<form action="Home?action=delete&user_id=<%=user.getUser_id()%>&note_id=<%=nota.getNote_id()%>" method="post">
-							<button type="submit" class="waves-effect waves-light btn-small" ><i class="material-icons right" >delete</i> Delete</button>
+						<form
+							action="Home?action=delete&user_id=<%=user.getUser_id()%>&note_id=<%=nota.getNote_id()%>"
+							method="post">
+							<button type="submit" class="waves-effect waves-light btn-small">
+								<i class="material-icons right">delete</i> Delete
+							</button>
 						</form>
-						<a class="btn-flat disabled">Last Edit:  <%=nota.getLast_edit()%></a>
-=======
-						<button onclick="deleteNote(<%=nota.getNote_id()%>)" class="waves-effect waves-light btn" ><i class="material-icons right" >delete</i> Delete</button>
-						<a class="btn-flat disabled">Last Edit:<%=nota.getLast_edit()%></a>
->>>>>>> 68b40b7d6808bce657d72c87df2a11b1b43b68a7
+						<a class="btn-flat disabled">Last Edit: <%=nota.getLast_edit()%></a>
 					</div>
 				</div>
 			</div>
@@ -78,9 +73,9 @@
 				}
 				} else {
 			%>
-				<div class="valign-wrapper center-align">
-					<h5>Nenhuma nota foi encontrada :/ </h5>
-				</div>
+			<div class="valign-wrapper center-align">
+				<h5>Nenhuma nota foi encontrada :/</h5>
+			</div>
 			<%
 				}
 			%>
@@ -98,34 +93,37 @@
 				<br>
 				<div class="input-field">
 					<textarea id="body" name="body" class="materialize-textarea"></textarea>
-					<label for="body">Corpo</label>
-					<input type="hidden" name="user_id" value="<%=user.getUser_id()%>">
+					<label for="body">Corpo</label> <input type="hidden" name="user_id"
+						value="<%=user.getUser_id()%>">
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="modal-close waves-effect waves-red btn red lighten-1">Done</button>
-    		</div>
+				<button type="submit"
+					class="modal-close waves-effect waves-red btn red lighten-1">Fechar</button>
+			</div>
 		</form>
 	</div>
-	
+
 	<div id="editNote" class="modal">
 		<form action="Home" method="post">
 			<div class="modal-content">
 				<div class="input-field">
-					<input type="text" id="mtitle" name="mtitle"> <label
-						for="title">Titulo</label>
+					<span class="teal-text text-lighten-2">Titulo</span>
+					<input type="text" id="mtitle" name="mtitle">
 				</div>
 				<br>
 				<div class="input-field">
+					<span class="teal-text text-lighten-2">Corpo</span>
 					<textarea id="mbody" name="mbody" class="materialize-textarea"></textarea>
-					<label for="body">Corpo</label>
-					<input type="hidden" name="action" value="edit">
-					<input type="hidden" id="mnote_id" name="note_id" value="">
-					<input type="hidden" name="user_id" value="<%=user.getUser_id()%>">
+					<input type="hidden" name="action"
+						value="edit"> <input type="hidden" id="mnote_id"
+						name="note_id" value=""> <input type="hidden"
+						name="user_id" value="<%=user.getUser_id()%>">
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="modal-close waves-effect waves-green btn-flat">fechar</button>
+				<button type="submit"
+					class="modal-close waves-effect waves-red btn red lighten-1">Fechar</button>
 			</div>
 		</form>
 	</div>

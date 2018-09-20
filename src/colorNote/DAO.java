@@ -268,4 +268,19 @@ public class DAO {
 		
 	}
 
+	public void changeUserPassword(User user, String new_password) {
+		String sql = "UPDATE tb_user SET senha=? WHERE user_id=?";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, new_password);
+			stmt.setInt(2, user.getUser_id());
+			stmt.execute();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("DAO: ERRO AO MUDAR SENHA DE USUARIO");
+		}
+		
+	}
+
 }
