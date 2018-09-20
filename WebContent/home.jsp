@@ -101,8 +101,9 @@
 				<button type="submit"
 					class="modal-close waves-effect waves-red btn red lighten-1">Fechar</button>
 			</div>
-		</form>
+		</form> 
 	</div>
+	
 
 	<div id="editNote" class="modal">
 		<form action="Home" method="post">
